@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load filter %}
+
+{% block content %}
+
+{% if feed_detail_list %}
+
+  {% for feed in feed_detail_list %}
+
+    <h1>{{ feed.feed.title }}</h1>
+
+    {% if feed.entries %}
+      <ul class="list-group list-group-flush">
+      {% for entry in feed.entries %}
+
+          <li class="list-group-item">
+            <a href="{{ entry.link }}">
+              {% if entry.title|length > 128 %}
+                {% for str in entry.title|split:'.'|slice:":1" %}
+                  {{ str }}<br>
+                {% endfor %}
+              {% else%}
+                {{ entry.title }}
+              {% endif %}
+            </a>
+          </li>
+
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p>No news available.</p>
+    {% endif %}
+
+  {% endfor %}
+
+{% else %}
+  <p>Feed not available.</p>
+{% endif %}
+
+{% endblock %}
